@@ -1,30 +1,16 @@
-
 <?php
+include 'funcoes.php';
 session_start();
-$_SESSION["users"] = array("anasantos" => "Collaborator",
-                "ruialmeida" => "Administrator",
-                "tiagogomes" => "Collaborator");
 
-$str = "<table class='table table-striped text-center'>
-<tr>
-    <td>User</td>
-    <td>Authority</td>
-    <td>Remove User</td>
-</tr>";              
-
-foreach ($_SESSION["users"] as $key => $value) {
-$str = $str . "<tr>
-            <td>$key</td>
-            <td>$value</td>
-            <td>
-            <a href='users.php?user=$key'>
-            <img width='30' src='images/trash.png' alt='trash' >
-            </a>
-            </td>
-            </tr>"; 
+if(isset($_POST["txtAluno"]) && isset($_POST["txtNota"])){
+    adicionar($_POST["txtAluno"], $_POST["txtNota"]);
+} else if(isset($_GET["aluno"])){
+    remover($_GET["aluno"]);
+}else{
+$_SESSION["notas"] = array("Margarida Santos" => 15,
+                "Ricardo Gomes" => 10,
+                "Rita Cardoso"  => 8);
 }
-$str = $str . "</table>";
-
 
 ?>
 
@@ -76,11 +62,18 @@ $str = $str . "</table>";
         <div class="row my-3">
             <div class="col-sm-8">
                 <?php 
-                  echo $str;  
+                  imprimir();  
                 ?>
             </div>
         </div>
         
+        <div class="row my-3">
+            <div class="col-sm-8">
+               <p><b>Média: <?php echo media(); ?> </b></p>
+               <p><b>Nota mais alta: <?php echo maisAlta(); ?> </b></p>
+               <p><b>Nota mais baixa: <?php echo maisBaixa(); ?> </b></p>
+            </div>
+        </div>
 
     </div>
 
